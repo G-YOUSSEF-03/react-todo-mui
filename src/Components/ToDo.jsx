@@ -50,6 +50,7 @@ export default function ToDO({ todo }) {
       return t;
     });
     setTodoValue(updatetodo);
+    localStorage.setItem("TodoValue", JSON.stringify(updatetodo));
   }
   //this function will open the popUp for delete the todo
   function DeletTodo() {
@@ -57,14 +58,16 @@ export default function ToDO({ todo }) {
   }
   //this function will  delete the todo
   function ConfirmDeleting() {
-    const updating = TodoValue.filter((t) => {
+    const updatetodo = TodoValue.filter((t) => {
       return t.id != todo.id;
     });
-    setTodoValue(updating);
+    localStorage.setItem("TodoValue", JSON.stringify(updatetodo));
+
+    setTodoValue(updatetodo);
   }
   //this function will  Update the todo
   function ConfirmUpdating() {
-    const Updt = TodoValue.map((t) => {
+    const updatetodo = TodoValue.map((t) => {
       if (t.id == todo.id) {
         return {
           ...t,
@@ -75,7 +78,10 @@ export default function ToDO({ todo }) {
         return t;
       }
     });
-    setTodoValue(Updt);
+    localStorage.setItem("TodoValue", JSON.stringify(updatetodo));
+
+    setTodoValue(updatetodo);
+
     setShowUpdateDialog(false);
   }
   return (
@@ -87,15 +93,15 @@ export default function ToDO({ todo }) {
         keepMounted
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"You will deleting this todo"}</DialogTitle>
+        <DialogTitle>{"Delete Todo"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Please confirm that you relly want to delete this todo!
+            Are you sure you want to delete this todo?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={CloseDialog}>Disagree</Button>
-          <Button onClick={ConfirmDeleting}>confirm</Button>
+          <Button onClick={CloseDialog}>Cancel</Button>
+          <Button onClick={ConfirmDeleting}>Delete</Button>
         </DialogActions>
       </Dialog>
       {/* ===== popup===== */}
@@ -106,7 +112,7 @@ export default function ToDO({ todo }) {
         keepMounted
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"You will Updating this todo"}</DialogTitle>
+        <DialogTitle>{"Edit Todo"}</DialogTitle>
         <DialogContent>
           <TextField
             value={updateValue.Title}
@@ -114,7 +120,7 @@ export default function ToDO({ todo }) {
               setUpdateValue({ ...updateValue, Title: event.target.value });
             }}
             id="outlined-basic"
-            label="Titel"
+            label="Title"
             variant="standard"
           />
         </DialogContent>
@@ -133,8 +139,8 @@ export default function ToDO({ todo }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={CloseUpdateDialog}>Disagree</Button>
-          <Button onClick={ConfirmUpdating}>confirm</Button>
+          <Button onClick={CloseUpdateDialog}>Cancel</Button>
+          <Button onClick={ConfirmUpdating}>Save</Button>
         </DialogActions>
       </Dialog>
       {/*===== update dialog =====*/}

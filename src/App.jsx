@@ -24,6 +24,11 @@ function App() {
     typography: {
       fontFamily: ["Zolando"],
     },
+    palette: {
+      primary: {
+        main: "#ab003c",
+      },
+    },
   });
   return (
     <>
